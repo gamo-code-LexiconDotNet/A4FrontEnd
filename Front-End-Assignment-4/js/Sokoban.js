@@ -55,10 +55,24 @@ var playerPosition = { x: 0, y: 0, }
 var mapName = "map"
 var tileMap = tileMap01
 
+// map
 var map = document.createElement("div")
 map.id = mapName
 insertTiles(tileMap, map)
 document.body.prepend(map)
+
+// victory overlay
+var victory = document.createElement("div")
+victory.id = "victory"
+victory.className = "victory hide"
+var victoryText = document.createElement("p")
+victoryText.innerText = "Victory"
+var victoryLink = document.createElement("a")
+victoryLink.href = "."
+victoryLink.innerText = "Reload page"
+victory.appendChild(victoryText)
+victory.appendChild(victoryLink)
+document.body.prepend(victory)
 
 //
 // --- logic ---
@@ -127,6 +141,9 @@ function move(position, direction) {
 
     updatePlayerPosition(direction)
   }
+
+  if (checkWin())
+    displayWin()
 }
 
 function updatePlayerPosition(direction) {
@@ -148,24 +165,35 @@ function calculateNewId(position, direction) {
   return `x${position.x + direction.x}y${position.y + direction.y}`
 }
 
+function checkWin() {
+  if (document.querySelectorAll("." + Entities.Block).length < 1)
+    return true
+  return false
+}
+
+function displayWin() {
+  setClassName("victory", "victory")
+}
+
 //
 // -- eventlistner
 //
 
 window.addEventListener("keydown", function(e) {
-  if(["ArrowUp","ArrowDown","ArrowLeft","ArrowRight"].indexOf(e.code) > -1) {
+  if(["ArrowUp","ArrowDown","ArrowLeft","ArrowRight"].indexOf(e.code) > 0) {
       e.preventDefault();
   }
 
-  try {
-    switch (e.code) {
-      case "ArrowUp": move(playerPosition, Direction.Up); break
-      case "ArrowDown": move(playerPosition, Direction.Down); break
-      case "ArrowLeft": move(playerPosition, Direction.Left); break
-      case "ArrowRight": move(playerPosition, Direction.Right); break
+  if (!checkWin())
+    try {
+      switch (e.code) {
+        case "ArrowUp": move(playerPosition, Direction.Up); break
+        case "ArrowDown": move(playerPosition, Direction.Down); break
+        case "ArrowLeft": move(playerPosition, Direction.Left); break
+        case "ArrowRight": move(playerPosition, Direction.Right); break
+      }
+    } catch {
+      // ignore exceptions and wait for user to move again
     }
-  } catch {
-    // ignore exceptions and wait for user to move again
-  }
 
 }, false);

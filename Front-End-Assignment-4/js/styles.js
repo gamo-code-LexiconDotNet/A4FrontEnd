@@ -25,6 +25,7 @@ var tileSize = 36
 styleSheet.addRule(
 `* { 
   padding: 0; margin: 0;
+  font-family: sans-serif;
 }`)
 
 styleSheet.addRule(
@@ -86,4 +87,33 @@ styleSheet.addRule(
 styleSheet.addRule(
 `.entity-player {
   background-image: url("img/i5.gif");
+}`)
+
+styleSheet.addRule(
+`.victory {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(42, 42, 42, 0.8);
+  color: #888;
+}`)
+
+styleSheet.addRule(
+`p {
+  font-size: 5rem;
+}`)
+  
+styleSheet.addRule(
+`.victory a {
+  font-size: 2rem;
+  color: #888;
+}`)
+
+styleSheet.addRule(
+`.hide {
+  visibility: hidden;
 }`)
